@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Did the Lesbians Go? — Toronto's Sapphic Spaces</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --plum:   #2D0A1E;
+    --berry:  #6D2E46;
+    --rose:   #C97B8A;
+    --blush:  #F5EEF0;
+    --cream:  #ECE2D0;
+    --wine:   #4A1030;
+    --muted:  #9B7080;
+    --white:  #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--plum);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999;
+    opacity: 0.35;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem;
+    background: linear-gradient(to bottom, rgba(45,10,30,0.97) 0%, transparent 100%);
+    backdrop-filter: blur(6px);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-style: italic;
+    color: var(--rose); letter-spacing: 0.02em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--rose); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 3rem 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 20%, rgba(109,46,70,0.45) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 15% 80%, rgba(201,123,138,0.15) 0%, transparent 60%),
+      var(--plum);
+  }
+  .hero-bg::before {
+    content: '';
+    position: absolute; top: 8%; right: 5%;
+    width: 380px; height: 380px; border-radius: 50%;
+    border: 1px solid rgba(201,123,138,0.18);
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute; top: 20%; right: 12%;
+    width: 220px; height: 220px; border-radius: 50%;
+    background: rgba(109,46,70,0.25);
+    animation: drift 14s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes drift {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(18px,-22px) scale(1.04); }
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 820px; }
+  .hero-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 1.2rem;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900; line-height: 0.95;
+    color: var(--white); margin-bottom: 1.8rem;
+    opacity: 0; animation: fadeUp 0.9s 0.4s forwards;
+  }
+  .hero-title em { color: var(--rose); font-style: italic; }
+  .hero-sub {
+    font-size: 1.05rem; line-height: 1.7; max-width: 560px;
+    color: rgba(236,226,208,0.8);
+    opacity: 0; animation: fadeUp 0.9s 0.6s forwards;
+    margin-bottom: 2.5rem;
+  }
+  .hero-ctas {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.9s 0.8s forwards;
+  }
+  .hero-cta {
+    display: inline-block;
+    padding: 0.85rem 2.2rem;
+    border: 1px solid var(--rose);
+    color: var(--rose); text-decoration: none;
+    font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
+    transition: all 0.25s;
+  }
+  .hero-cta:hover { background: var(--rose); color: var(--plum); }
+  .hero-cta.secondary {
+    border-color: rgba(201,123,138,0.35);
+    color: var(--muted);
+  }
+  .hero-cta.secondary:hover { background: rgba(201,123,138,0.15); color: var(--rose); border-color: var(--rose); }
+
+  .hero-scroll {
+    position: absolute; bottom: 2rem; right: 3rem; z-index: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    opacity: 0; animation: fadeIn 1s 1.5s forwards;
+  }
+  .hero-scroll span {
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); writing-mode: vertical-rl;
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine {
+    0%   { transform: scaleY(0); transform-origin: top; }
+    50%  { transform: scaleY(1); transform-origin: top; }
+    51%  { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* SECTION BASE */
+  section { padding: 6rem 3rem; }
+  .section-label {
+    font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700; line-height: 1.15;
+    color: var(--white); margin-bottom: 1.5rem;
+  }
+  .section-title em { color: var(--rose); font-style: italic; }
+  .body-text {
+    font-size: 1rem; line-height: 1.8;
+    color: rgba(236,226,208,0.82);
+    max-width: 660px;
+  }
+
+  /* PARADOX / INTRO */
+  #story {
+    background: var(--plum);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+  }
+  .intro-right { display: flex; flex-direction: column; gap: 1.5rem; }
+  .intro-right p { font-size: 1rem; line-height: 1.85; color: rgba(236,226,208,0.8); }
+  .pull-quote {
+    border-left: 3px solid var(--rose);
+    padding: 1.2rem 1.5rem;
+    background: rgba(109,46,70,0.2);
+  }
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-style: italic;
+    color: var(--cream) !important; line-height: 1.6 !important;
+  }
+  .pull-quote cite {
+    display: block; margin-top: 0.6rem;
+    font-size: 0.75rem; letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  /* STATS */
+  #scale { background: var(--wine); text-align: center; }
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; margin-top: 3.5rem;
+    max-width: 900px; margin-left: auto; margin-right: auto;
+  }
+  .stat-box {
+    background: rgba(45,10,30,0.6);
+    padding: 3rem 2rem;
+    border: 1px solid rgba(201,123,138,0.15);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .stat-box:hover {
+    border-color: rgba(201,123,138,0.45);
+    background: rgba(109,46,70,0.3);
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 4.5rem; font-weight: 900;
+    color: var(--rose); line-height: 1; margin-bottom: 0.6rem;
+  }
+  .stat-label { font-size: 0.85rem; line-height: 1.5; color: var(--muted); }
+  .stat-source { font-size: 0.68rem; color: rgba(155,112,128,0.6); margin-top: 0.4rem; }
+  .stats-context {
+    max-width: 620px; margin: 3rem auto 0;
+    font-size: 0.95rem; line-height: 1.75;
+    color: rgba(236,226,208,0.7);
+  }
+
+  /* ASYMMETRY — key comparison section */
+  #asymmetry {
+    background: var(--plum);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  }
+  .asymmetry-left {
+    padding: 6rem 3rem;
+    background: rgba(109,46,70,0.1);
+    border-right: 1px solid rgba(201,123,138,0.15);
+  }
+  .asymmetry-right { padding: 6rem 3rem; }
+  .bar-label {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem;
+  }
+  .bar-label::before {
+    content: ''; display: block;
+    width: 28px; height: 1px;
+  }
+  .survived .bar-label { color: var(--muted); }
+  .survived .bar-label::before { background: var(--muted); }
+  .lost .bar-label { color: var(--rose); }
+  .lost .bar-label::before { background: var(--rose); }
+  .bar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700; color: var(--white);
+    margin-bottom: 1rem; line-height: 1.2;
+  }
+  .bar-sub {
+    font-size: 0.88rem; line-height: 1.75;
+    color: rgba(236,226,208,0.65); margin-bottom: 1.5rem;
+  }
+  .bar-status {
+    display: inline-block;
+    font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid;
+  }
+  .survived .bar-status { border-color: rgba(155,112,128,0.4); color: var(--muted); }
+  .lost .bar-status { border-color: rgba(201,123,138,0.5); color: var(--rose); }
+  .asymmetry-center {
+    grid-column: 1 / -1;
+    padding: 2.5rem 3rem;
+    background: rgba(74,16,48,0.5);
+    border-top: 1px solid rgba(201,123,138,0.1);
+    text-align: center;
+  }
+  .asymmetry-thesis {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-style: italic;
+    color: var(--cream); max-width: 680px; margin: 0 auto;
+    line-height: 1.65;
+  }
+  .asymmetry-thesis span { color: var(--rose); }
+
+  /* TIMELINE */
+  #timeline { background: var(--wine); }
+  .timeline-intro { max-width: 560px; margin-bottom: 4rem; }
+  .timeline-track { position: relative; padding-left: 3rem; }
+  .timeline-track::before {
+    content: '';
+    position: absolute; left: 8px; top: 8px; bottom: 0;
+    width: 1px; background: rgba(201,123,138,0.25);
+  }
+  .timeline-item {
+    position: relative; margin-bottom: 3rem;
+    opacity: 0; transform: translateX(-16px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+  .timeline-dot {
+    position: absolute; left: -3.15rem; top: 0.35rem;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--berry); border: 2px solid var(--rose);
+    transition: background 0.3s;
+  }
+  .timeline-item:hover .timeline-dot { background: var(--rose); }
+  .timeline-year { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.35rem; }
+  .timeline-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--white); margin-bottom: 0.4rem; }
+  .timeline-desc { font-size: 0.9rem; line-height: 1.7; color: rgba(236,226,208,0.7); max-width: 560px; }
+
+  /* WHY — TWO MECHANISMS */
+  #why { background: var(--plum); }
+  .why-intro { max-width: 600px; margin-bottom: 4rem; }
+  .mechanisms {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5px;
+  }
+  .mechanism {
+    background: rgba(74,16,48,0.4);
+    padding: 3rem 2.5rem;
+    position: relative; overflow: hidden;
+    border: 1px solid rgba(201,123,138,0.1);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .mechanism:hover {
+    border-color: rgba(201,123,138,0.35);
+    background: rgba(109,46,70,0.25);
+  }
+  .mechanism::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--rose); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .mechanism:hover::after { transform: scaleX(1); }
+  .mechanism-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; font-weight: 900;
+    color: rgba(201,123,138,0.08);
+    position: absolute; top: 0.8rem; right: 1.5rem;
+    line-height: 1;
+  }
+  .mechanism h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; color: var(--white);
+    margin-bottom: 0.5rem; line-height: 1.2;
+  }
+  .mechanism-sub {
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 1.2rem;
+  }
+  .mechanism p { font-size: 0.92rem; line-height: 1.8; color: rgba(236,226,208,0.72); }
+  .mechanism-details {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(201,123,138,0.15);
+    display: flex; flex-direction: column; gap: 0.8rem;
+  }
+  .detail-item {
+    display: flex; gap: 0.8rem; align-items: flex-start;
+  }
+  .detail-item::before {
+    content: '→';
+    color: var(--rose); font-size: 0.8rem;
+    flex-shrink: 0; margin-top: 0.1rem;
+  }
+  .detail-item span { font-size: 0.85rem; line-height: 1.6; color: rgba(236,226,208,0.6); }
+  .detail-item strong { color: rgba(236,226,208,0.85); }
+
+  /* THEORY */
+  #theory { background: var(--wine); }
+  .theory-intro { max-width: 560px; margin-bottom: 4rem; }
+  .concept-row {
+    display: grid; grid-template-columns: 220px 1fr;
+    gap: 2.5rem; padding: 2.5rem 0;
+    border-top: 1px solid rgba(201,123,138,0.12);
+    align-items: start;
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .concept-row.visible { opacity: 1; transform: translateY(0); }
+  .concept-row:last-child { border-bottom: 1px solid rgba(201,123,138,0.12); }
+  .concept-tag {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-style: italic; color: var(--rose);
+  }
+  .concept-scholar {
+    font-size: 0.7rem; letter-spacing: 0.1em;
+    color: var(--muted); margin-top: 0.4rem; text-transform: uppercase;
+  }
+  .concept-body h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; color: var(--white); margin-bottom: 0.6rem;
+  }
+  .concept-body p {
+    font-size: 0.92rem; line-height: 1.8;
+    color: rgba(236,226,208,0.72); max-width: 600px;
+  }
+
+  /* MOBILIZATION COMPARISON */
+  #mobilization { background: var(--plum); }
+  .mobilization-intro { max-width: 560px; margin-bottom: 3.5rem; }
+  .compare-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5px; margin-bottom: 3rem;
+  }
+  .compare-card {
+    padding: 2.5rem;
+    position: relative;
+  }
+  .compare-card.defended { background: rgba(74,16,48,0.3); border: 1px solid rgba(155,112,128,0.2); }
+  .compare-card.abandoned { background: rgba(109,46,70,0.15); border: 1px solid rgba(201,123,138,0.2); }
+  .compare-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; color: var(--white); margin-bottom: 0.5rem;
+  }
+  .compare-outcome {
+    font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .defended .compare-outcome { color: var(--muted); }
+  .abandoned .compare-outcome { color: var(--rose); }
+  .compare-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .defended .compare-dot { background: var(--muted); }
+  .abandoned .compare-dot { background: var(--rose); }
+  .compare-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .compare-card li {
+    font-size: 0.88rem; line-height: 1.6;
+    color: rgba(236,226,208,0.68);
+    padding-left: 1rem; position: relative;
+  }
+  .compare-card li::before { content: '—'; position: absolute; left: 0; color: var(--rose); }
+  .mobilization-conclusion {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-style: italic;
+    color: var(--cream); line-height: 1.65;
+    border-left: 3px solid var(--rose);
+    padding: 1.2rem 1.5rem;
+    background: rgba(109,46,70,0.2);
+    max-width: 700px;
+  }
+
+  /* EVENTS */
+  #events {
+    background: var(--berry);
+    position: relative; overflow: hidden;
+  }
+  #events::before {
+    content: '';
+    position: absolute; top: -40%; right: -15%;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: rgba(45,10,30,0.4); pointer-events: none;
+  }
+  .events-intro { max-width: 560px; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+  .events-caveat {
+    font-size: 0.82rem; color: rgba(236,226,208,0.55);
+    line-height: 1.65; margin-bottom: 3rem;
+    max-width: 540px; font-style: italic;
+    position: relative; z-index: 1;
+  }
+  .events-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem; position: relative; z-index: 1;
+  }
+  .event-card {
+    background: rgba(45,10,30,0.55);
+    border: 1px solid rgba(201,123,138,0.18);
+    padding: 1.8rem;
+    transition: transform 0.25s, border-color 0.25s, background 0.25s;
+  }
+  .event-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(201,123,138,0.5);
+    background: rgba(45,10,30,0.75);
+  }
+  .event-badge {
+    display: inline-block;
+    font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--rose); border: 1px solid rgba(201,123,138,0.4);
+    padding: 0.2rem 0.55rem; margin-bottom: 1rem;
+  }
+  .event-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; color: var(--white); margin-bottom: 0.5rem;
+  }
+  .event-desc { font-size: 0.88rem; line-height: 1.7; color: rgba(236,226,208,0.7); }
+  .event-link {
+    display: inline-block; margin-top: 1.2rem;
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--rose); text-decoration: none;
+    border-bottom: 1px solid transparent; transition: border-color 0.2s;
+  }
+  .event-link:hover { border-color: var(--rose); }
+
+  /* CONCLUSION */
+  #conclusion {
+    background: var(--plum);
+    text-align: center;
+    padding: 9rem 3rem;
+  }
+  .conclusion-inner { max-width: 720px; margin: 0 auto; }
+  .conclusion-inner .section-title {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    margin-bottom: 1.8rem;
+  }
+  .conclusion-inner .body-text {
+    max-width: 100%; text-align: center;
+    font-size: 1.05rem; margin: 0 auto 2rem;
+  }
+  .conclusion-divider { width: 60px; height: 1px; background: var(--rose); margin: 2.5rem auto; }
+  .conclusion-sources {
+    font-size: 0.72rem; line-height: 2;
+    color: var(--muted); text-align: left;
+    max-width: 620px; margin: 0 auto;
+  }
+  .conclusion-sources strong {
+    display: block; color: rgba(236,226,208,0.4);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 0.8rem; font-size: 0.65rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--wine);
+    padding: 2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(201,123,138,0.1);
+  }
+  footer p { font-size: 0.75rem; color: var(--muted); }
+  footer a { color: var(--rose); text-decoration: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 0 1.5rem 4rem; }
+    section { padding: 4rem 1.5rem; }
+    #story { grid-template-columns: 1fr; gap: 2.5rem; }
+    #asymmetry { grid-template-columns: 1fr; }
+    .asymmetry-left { border-right: none; border-bottom: 1px solid rgba(201,123,138,0.15); padding: 4rem 1.5rem; }
+    .asymmetry-right { padding: 4rem 1.5rem; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .mechanisms { grid-template-columns: 1fr; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .concept-row { grid-template-columns: 1fr; gap: 0.5rem; }
+    footer { flex-direction: column; gap: 0.8rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Where Did the Lesbians Go?</span>
+  <ul class="nav-links">
+    <li><a href="#story">The Paradox</a></li>
+    <li><a href="#scale">Scale</a></li>
+    <li><a href="#why">Why</a></li>
+    <li><a href="#theory">Theory</a></li>
+    <li><a href="#events">Find Events</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">A Sociological Research Project · SOC410H1S · University of Toronto · 2026</p>
+    <h1 class="hero-title">Where Did<br>the <em>Lesbians</em><br>Go?</h1>
+    <p class="hero-sub">Toronto markets itself as the Queer Capital of Canada. As of 2022, it has not a single dedicated lesbian bar. This project argues the paradox is not incidental — the city's reputation for queer inclusivity and the disappearance of sapphic space are mutually reinforcing forces.</p>
+    <div class="hero-ctas">
+      <a href="#story" class="hero-cta">Read the Argument</a>
+      <a href="#events" class="hero-cta secondary">Find Events Today</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</div>
+
+<!-- PARADOX / INTRO -->
+<section id="story">
+  <div class="intro-left">
+    <p class="section-label">The Paradox</p>
+    <h2 class="section-title">A celebrated<br>queer city.<br><em>Zero</em> lesbian<br>bars.</h2>
+  </div>
+  <div class="intro-right">
+    <p>In October 2022, Lavender Menace — Toronto's last dedicated lesbian bar — closed its doors, leaving Canada without a single venue of its kind. This happened in a city where rainbow-painted crosswalks line Church Street year-round and Pride Toronto draws millions of visitors each summer.</p>
+    <div class="pull-quote">
+      <p>"Toronto's reputation for queer inclusivity and the disappearance of its lesbian bars are not opposed forces but mutually reinforcing ones."</p>
+      <cite>— From the paper's thesis</cite>
+    </div>
+    <p>The loss is not explained by changing preferences or the neutral operation of market forces. It is the product of two compounding forces: the structural economic precarity of women-centred venues, and a post-feminist ideological shift that renders women's single-sex space politically illegitimate at the very moment formal equality has been achieved.</p>
+    <p>Together, these forces remove both the financial viability and the cultural legitimacy that might otherwise have produced resistance to the loss — making erasure look like progress.</p>
+  </div>
+</section>
+
+<!-- SCALE -->
+<section id="scale">
+  <p class="section-label">Scale of the Loss</p>
+  <h2 class="section-title">From hundreds<br>to <em>none.</em></h2>
+  <div class="stats-grid">
+    <div class="stat-box">
+      <div class="stat-num">200+</div>
+      <div class="stat-label">Lesbian bars in the United States in the 1980s</div>
+      <div class="stat-source">Lesbian Bar Project</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">32</div>
+      <div class="stat-label">Remaining in the U.S. as of 2024</div>
+      <div class="stat-source">Newsweek, 2024</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Dedicated lesbian bars in Canada as of 2022</div>
+      <div class="stat-source">Now Toronto, 2026</div>
+    </div>
+  </div>
+  <p class="stats-context">Toronto traces this North American pattern in its most extreme form. What remains of sapphic social life in the city is primarily pop-up events and monthly themed nights at general venues — vibrant, but structurally precarious.</p>
+</section>
+
+<!-- ASYMMETRY — the key comparison -->
+<section id="asymmetry" style="padding: 0;">
+  <div class="asymmetry-left survived">
+    <div class="bar-label">Gay male bars</div>
+    <div class="bar-title">Woody's.<br>Crews & Tangos.<br>Black Eagle.</div>
+    <p class="bar-sub">All three have operated on Church Street for over twenty years. When a developer proposed a 48-storey tower on the Crews & Tangos site in 2026, the community mobilized. Politicians intervened. A preservation deal was struck. Ontario NDP critic Kristyn Wong-Tam issued a public statement. The CWNA ran a legal defense fund.</p>
+    <span class="bar-status">Still open</span>
+  </div>
+  <div class="asymmetry-right lost">
+    <div class="bar-label">Lesbian bars</div>
+    <div class="bar-title">Lavender<br>Menace.</div>
+    <p class="bar-sub">When Lavender Menace closed in October 2022, there was no equivalent mobilization, no political intervention, no community fund. The last dedicated lesbian bar in Canada closed quietly. The same neighbourhood. The same gentrification. The same apps. Radically different responses.</p>
+    <span class="bar-status">Closed October 2022</span>
+  </div>
+  <div class="asymmetry-center">
+    <p class="asymmetry-thesis">The divergence in outcomes is not explained by anything except <span>gender</span>. Gayborhood decline affects everyone. The asymmetry in response reflects what the post-feminist logic of "taken into accountness" does not apply to gay men's spaces — women's spaces are understood as optional because equality is presumed sufficient.</p>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="timeline-intro">
+    <p class="section-label">Toronto's Arc</p>
+    <h2 class="section-title">A history of<br><em>coming and going.</em></h2>
+    <p class="body-text">Toronto's lesbian bar history stretches back to the post-WWII era. Each generation of spaces seems to close before the next fully opens.</p>
+  </div>
+  <div class="timeline-track">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">1940s – 1970s</div>
+      <div class="timeline-title">The Continental & early sapphic spaces</div>
+      <div class="timeline-desc">Post-WWII Toronto saw the emergence of the first lesbian bars, including The Continental. These spaces operated under conditions of real danger — but provided the first permanent sapphic anchors in the city. The Continental closed in the 1970s.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">1990s</div>
+      <div class="timeline-title">A vibrant lesbian nightlife scene</div>
+      <div class="timeline-desc">The 1990s saw a genuine heyday for lesbian spaces in Toronto's Church-Wellesley Village. Community infrastructure, bars, and cultural events converged in a period of relative stability for sapphic public life.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">2000s – 2010s</div>
+      <div class="timeline-title">Gradual shift toward general queer audiences</div>
+      <div class="timeline-desc">Bars increasingly pivoted toward broader queer clientele — or toward male-dominated audiences — as economics made women-centered venues harder to sustain. Sociologist Amin Ghaziani's research found that lesbians were already leaving gayborhoods at a rate of 13% compared to 8% for gay men — before the final closures.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">October 2022</div>
+      <div class="timeline-title">Lavender Menace closes — Canada goes to zero</div>
+      <div class="timeline-desc">The closure of Lavender Menace marked the end of a dedicated permanent sapphic venue anywhere in Canada. It was not a failure of community demand. It was the product of compounding structural forces that made the bar impossible to sustain.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">2022 – Present</div>
+      <div class="timeline-title">Pop-up circuits fill the gap</div>
+      <div class="timeline-desc">Hide & Seek, TOASTR, Lavender Wild, and Lez Beach now form Toronto's primary sapphic infrastructure. These events generate genuine community and safety. But they cannot accumulate the permanence that transforms a gathering into an anchor — and their continued existence depends on the goodwill of venues that can withdraw access at any time.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY — TWO MECHANISMS -->
+<section id="why">
+  <div class="why-intro">
+    <p class="section-label">The Argument</p>
+    <h2 class="section-title">Two forces.<br><em>One outcome.</em></h2>
+    <p class="body-text">The disappearance of lesbian bars results from economic precarity and ideological delegitimation operating together. Neither fully explains the loss alone — each makes the other more powerful.</p>
+  </div>
+  <div class="mechanisms">
+    <div class="mechanism">
+      <div class="mechanism-num">I</div>
+      <div class="mechanism-sub">Economic Mechanism</div>
+      <h3>Structural Precarity of Women-Centred Venues</h3>
+      <p>Urban nightlife spaces actively reproduce patterns of social stratification rather than rising above them. When venue owners calculate which events to host, gender is doing structural work — and it works against lesbian bars at every level.</p>
+      <div class="mechanism-details">
+        <div class="detail-item">
+          <span>A Toronto venue owner told organizers directly: <strong>"We don't want to give you the space because we're gonna make less in bar sales."</strong> This is market logic, not personal animus.</span>
+        </div>
+        <div class="detail-item">
+          <span>Both partners in a lesbian couple simultaneously face the gender wage gap — <strong>compounding constraints</strong> on household discretionary income unavailable to gay male couples.</span>
+        </div>
+        <div class="detail-item">
+          <span>24% of female same-sex couples have children, versus only 6% of gay male couples (Statistics Canada, 2021). Bars depend not just on spending per visit but on <strong>reliable return</strong>.</span>
+        </div>
+        <div class="detail-item">
+          <span>When lesbian bars shift to general queer audiences to survive, the economics of the newly mixed space reflect <strong>gay men's spending patterns</strong>. The bar dissolves into a space that serves someone else's needs.</span>
+        </div>
+      </div>
+    </div>
+    <div class="mechanism">
+      <div class="mechanism-num">II</div>
+      <div class="mechanism-sub">Ideological Mechanism</div>
+      <h3>Post-Feminist Delegitimation of Women's Space</h3>
+      <p>Economic precarity explains why lesbian bars are structurally vulnerable. It does not explain why their loss generates so little resistance. For this, we must turn to ideology.</p>
+      <div class="mechanism-details">
+        <div class="detail-item">
+          <span>McRobbie's "taken into accountness": because lesbians enjoy formal legal equality, <strong>continued gender-specific claims appear as unnecessary holdovers</strong>. The loss is absorbed into a narrative of progress.</span>
+        </div>
+        <div class="detail-item">
+          <span>McRobbie's "new sexual contract": women are granted freedoms — mobility, access, temporary inclusion — in exchange for <strong>abandoning claims to permanent space of their own</strong>. The pop-up is not an evolution; it is what belonging looks like when the right to space has been traded away.</span>
+        </div>
+        <div class="detail-item">
+          <span>Aptekar on the cosmopolitan canopy: Church-Wellesley performs queer inclusivity through rainbow crosswalks and Pride festivals, while <strong>specific vulnerabilities of lesbians are rendered invisible</strong> under the umbrella.</span>
+        </div>
+        <div class="detail-item">
+          <span>Brown-Saracino (2021): even queer commemorators of lost dyke bars prefer "queer" over "lesbian" and redirect toward mobile spaces — <strong>the post-feminist logic operating from within queer activism itself</strong>.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THEORY -->
+<section id="theory">
+  <div class="theory-intro">
+    <p class="section-label">Theoretical Framework</p>
+    <h2 class="section-title">The scholars<br>who explain<br><em>the loss.</em></h2>
+  </div>
+  <div>
+    <div class="concept-row">
+      <div>
+        <div class="concept-tag">Taken Into Accountness</div>
+        <div class="concept-scholar">McRobbie (2004, 2011)</div>
+      </div>
+      <div class="concept-body">
+        <h4>Feminism presumed complete — women's claims made redundant</h4>
+        <p>Post-feminism operates by acknowledging feminist gains as already achieved, making further gender-specific claims seem unnecessary. Applied to lesbian bars: because lesbians are legally equal and welcome in general queer spaces, the argument goes they no longer need their own venues. This ideological move does not require anyone to be hostile to women — it only requires that equality be presumed sufficient.</p>
+      </div>
+    </div>
+    <div class="concept-row">
+      <div>
+        <div class="concept-tag">The New Sexual Contract</div>
+        <div class="concept-scholar">McRobbie (2011)</div>
+      </div>
+      <div class="concept-body">
+        <h4>Freedom granted in exchange for permanent space forfeited</h4>
+        <p>Women are granted mobility, access, and temporary inclusion in mainstream venues — but in exchange, they abandon claims to specific protections or spaces of their own. TOASTR and Hide & Seek represent precisely this exchange. The appearance of freedom — you can go anywhere, there are sapphic events everywhere — disguises what has been forfeited: the right to a permanent anchor that belongs to the community on its own terms.</p>
+      </div>
+    </div>
+    <div class="concept-row">
+      <div>
+        <div class="concept-tag">The Cosmopolitan Canopy</div>
+        <div class="concept-scholar">Anderson (2004) / Aptekar (2019)</div>
+      </div>
+      <div class="concept-body">
+        <h4>Performed inclusivity that masks specific vulnerability</h4>
+        <p>Aptekar critiques spaces that perform inclusivity so effectively that surface-level diversity comes to seem sufficient — masking persistent inequalities underneath. Church-Wellesley Village functions as precisely this kind of cosmopolitan canopy: rainbow crosswalks, Pride festivals, a general atmosphere of tolerance. Women are welcome in it. What this framing cannot accommodate is the claim that women might need space defined on their own terms, not just access to space defined by others.</p>
+      </div>
+    </div>
+    <div class="concept-row">
+      <div>
+        <div class="concept-tag">Right to the City</div>
+        <div class="concept-scholar">Lefebvre / Aquino et al. (2022)</div>
+      </div>
+      <div class="concept-body">
+        <h4>Not the right to be present — the power to produce space</h4>
+        <p>The Right to the City is not simply the legal right to occupy urban space. It is the power to produce space according to collective social needs rather than market logic. The question for Toronto is not whether lesbians are legally welcome — they are. The question is whether they retain the power to shape space on their own terms. When the only sapphic infrastructure is temporary and itinerant, belonging itself becomes structurally precarious.</p>
+      </div>
+    </div>
+    <div class="concept-row">
+      <div>
+        <div class="concept-tag">Critical Nostalgia & Commemoration</div>
+        <div class="concept-scholar">Brown-Saracino (2021)</div>
+      </div>
+      <div class="concept-body">
+        <h4>Grieving what you have already ideologically accepted losing</h4>
+        <p>Brown-Saracino finds that the people most committed to preserving the memory of dyke bars — young queer commemorators — simultaneously prefer "queer" over "lesbian" (because "lesbian" feels exclusionary) and redirect their energy toward mobile, gender-heterogeneous events rather than toward rebuilding permanent venues. This is the post-feminist logic at its most striking: the very people who grieve these spaces have internalized the framework that makes their loss acceptable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOBILIZATION COMPARISON -->
+<section id="mobilization">
+  <div class="mobilization-intro">
+    <p class="section-label">The Evidence</p>
+    <h2 class="section-title">When the community<br><em>mobilized</em> — and<br>when it didn't.</h2>
+    <p class="body-text">The sharpest evidence for the ideological argument is not in what people said, but in what they did — and didn't do.</p>
+  </div>
+  <div class="compare-grid">
+    <div class="compare-card defended">
+      <h3>Crews & Tangos</h3>
+      <div class="compare-outcome"><div class="compare-dot"></div> Developer threat in 2026 — community response</div>
+      <ul>
+        <li>Ontario NDP critic Kristyn Wong-Tam issued a public statement</li>
+        <li>Church Wellesley Neighbourhood Association ran a legal defense fund</li>
+        <li>Politicians intervened; preservation deal struck to 2029</li>
+        <li>Bar became a public cause; the loss was treated as unacceptable</li>
+      </ul>
+    </div>
+    <div class="compare-card abandoned">
+      <h3>Lavender Menace</h3>
+      <div class="compare-outcome"><div class="compare-dot"></div> Closure in October 2022 — community response</div>
+      <ul>
+        <li>No equivalent mobilization</li>
+        <li>No political intervention</li>
+        <li>No community defense fund</li>
+        <li>The last lesbian bar in Canada closed quietly</li>
+      </ul>
+    </div>
+  </div>
+  <div class="mobilization-conclusion">
+    That asymmetry in response is not an accident. It reflects the ideological conditions traced throughout this project: gay men's spaces are understood as worth defending; women's spaces are understood as optional because equality is presumed sufficient.
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section id="events">
+  <div class="events-intro">
+    <p class="section-label">Still Here</p>
+    <h2 class="section-title">Where sapphic<br>space <em>lives</em><br>in Toronto today.</h2>
+  </div>
+  <p class="events-caveat">In the absence of permanent venues, lesbians and non-binary people have built a circuit of travelling events. These spaces are real, vibrant, and community-sustaining. Their existence is evidence of need — not evidence that the need has been met. Always check organizers' social media for current dates and locations.</p>
+  <div class="events-grid">
+    <div class="event-card">
+      <span class="event-badge">Recurring</span>
+      <div class="event-name">Hide &amp; Seek</div>
+      <p class="event-desc">One of Toronto's most beloved recurring lesbians's dance nights, organized through About Last Night. Known for beautiful venues and an atmosphere of genuine safety and celebration.</p>
+      <a class="event-link" href="https://www.instagram.com/aboutlastnighttoronto/" target="_blank">Find on Instagram →</a>
+    </div>
+    <div class="event-card">
+      <span class="event-badge">Recurring</span>
+      <div class="event-name">TOASTR</div>
+      <p class="event-desc">Events organized specifically for lesbians, transgender, and non-binary people. Organizer Tania Morano built TOASTR out of a need to create new spaces when there was "really just nothing at all."</p>
+      <a class="event-link" href="https://www.instagram.com/toastrto/" target="_blank">Find on Instagram →</a>
+    </div>
+    <div class="event-card">
+      <span class="event-badge">Party Series</span>
+      <div class="event-name">Lavender Wild</div>
+      <p class="event-desc">A sapphic party series bringing lesbians and non-binary folks together across Toronto venues. Part of the growing circuit of mobile events filling the gap left by permanent bars.</p>
+      <a class="event-link" href="https://www.instagram.com/" target="_blank">Search on Instagram →</a>
+    </div>
+    <div class="event-card">
+      <span class="event-badge">Annual · Summer</span>
+      <div class="event-name">Lez Beach</div>
+      <p class="event-desc">An annual sapphic takeover of Hanlan's Point Beach drawing hundreds of lesbians, dykes, sapphics, and queer femmes. Sociologist Beth Washburn cites it as evidence of cultural resurgence in Toronto's sapphic community.</p>
+      <a class="event-link" href="https://www.instagram.com/" target="_blank">Search on Instagram →</a>
+    </div>
+    <div class="event-card">
+      <span class="event-badge">Pride Weekend</span>
+      <div class="event-name">CandyLand</div>
+      <p class="event-desc">A co-production by the organizers of TOASTR and Hide & Seek, CandyLand is a major sapphic event during Toronto's Pride weekend — one of the most visible moments for the community each year.</p>
+      <a class="event-link" href="https://www.instagram.com/" target="_blank">Search on Instagram →</a>
+    </div>
+    <div class="event-card">
+      <span class="event-badge">Bar</span>
+      <div class="event-name">Crews &amp; Tangos</div>
+      <p class="event-desc">One of the few remaining bars on Church Street that welcomes lesbians. More geared toward the general queer community — but a space where lesbians reliably feel welcome, and one that the community successfully fought to keep.</p>
+      <a class="event-link" href="https://www.crewsandtangos.com" target="_blank">Visit Website →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSION -->
+<section id="conclusion">
+  <div class="conclusion-inner">
+    <p class="section-label">Conclusion</p>
+    <h2 class="section-title">Inclusion in the abstract<br>is not the same as<br><em>belonging in practice.</em></h2>
+    <p class="body-text">A city that genuinely measures inclusion must ask not only whether all groups are legally welcome but whether all groups retain the power to produce space according to their own collective needs. By Lefebvre's Right to the City standard, Toronto's record is more complicated than its Pride flags suggest. The lesbians are still here. What they have lost is a place of their own to go.</p>
+    <div class="conclusion-divider"></div>
+    <div class="conclusion-sources">
+      <strong>Key Sources</strong>
+      Banfield, Devon. "Diving into the Lack of Spaces for Queer Women." Now Toronto, 2023.<br>
+      Banfield, Devon. "RIP: 7 Beloved Queer Spaces That Toronto Misses." Now Toronto, 2026.<br>
+      Brown-Saracino, Japonica. "The Afterlife of Identity Politics." American Journal of Sociology 126(5), 2021.<br>
+      Grazian, David. "Urban Nightlife, Social Capital, and the Public Life of Cities." Sociological Forum 24(4), 2009.<br>
+      McRobbie, Angela. "Post-Feminism and Popular Culture." Feminist Media Studies 4(3), 2004.<br>
+      McRobbie, Angela. "Beyond Post-Feminism." Public Policy Research 18(3), 2011.<br>
+      Aptekar, Sofya. "The Unbearable Lightness of the Cosmopolitan Canopy." City & Community 18(1), 2019.<br>
+      Aquino et al. "The Right to the City." Annals of Leisure Research 25(4), 2022.<br>
+      Statistics Canada. Same-Sex Couples in Canada, 2016 &amp; 2021 Census.
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>A research project for SOC410H1S, University of Toronto · Winter 2026</p>
+  <p>For the sapphic communities of Toronto. <a href="#events">Find events →</a></p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.timeline-item, .concept-row').forEach((el, i) => {
+    observer.observe(el);
+    el.style.transitionDelay = `${i * 0.07}s`;
+  });
+</script>
+</body>
+</html>
