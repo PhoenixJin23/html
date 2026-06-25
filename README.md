@@ -88,3 +88,7 @@ I don't know what's wrong with terfs...
 
 
 哎不知道小羊怎么看我说的“好朋友（包括你）”，，are we friends or something?
+
+
+
+哎啊我一直在笑，真的好人类本能的约会啊。。。。
